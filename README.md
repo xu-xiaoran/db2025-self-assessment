@@ -1,8 +1,11 @@
 # 数据库原理与应用2025-自我评价
+
 ---
 
 ## 第一周：数据库系统基础概念
+
  **学习内容**：
+
   * 数据库与数据库管理系统（DBMS）概念
   * 对数据库、关系模式进行初步了解
   * 下载安装并配置 PostgreSQL
@@ -16,44 +19,61 @@
 ---
 
 ## 第二周：关系模型与关系代数
+
 **学习内容**：
+
   * 关系模型核心概念：表、元组、属性
   * 关系代数基本运算：并、交、差、笛卡尔积、选择、投影、连接
   * 约束：主码、候选码、外码及其完整性作用
 
-**要点**：
+**理解**：
+
   * 关系模式就是表的蓝图或模板。它描述了表应该长什么样子，包含哪些列，每列放什么类型的数据，以及数据需要遵守哪些规则。
+
   * 关系代数提供了一种形式化的方法来理解和构建复杂的数据库查询。
+
   * Super Key、Primary Key、Candidate Key、Foreign Key的概念与区分。
 
-    | 关系          | 示例                                      |
-    |--------------|------------------------------------------|
-    | 关系模式      | `branch(branch_name, branch_city, assets)` |
-    | 关系代数      | `π_{branch_name}(σ_{branch_city='成都'}(branch))` |
-    |Super Key     |{emp_id}, {emp_id, name}, {ssn} in Employee(emp_id, ssn, name)|
-    |Primary Key   |account_no in Account(account_no, balance, branch_id)    |
-    |Candidate Key|Both student_id and email in Student(student_id, email, name)|
-    |Foreign Key|branch_id in Account(account_no, balance, branch_id) references Branch(branch_id)|
+    | 关系          | 示例                                                         |
+    | ------------- | ------------------------------------------------------------ |
+    | 关系模式      | `branch(branch_name, branch_city, assets)`                   |
+    | 关系代数      | `π_{branch_name}(σ_{branch_city='成都'}(branch)) `           |
+    | Super Key     | `{emp_id}`, `{emp_id, name}`, `{ssn}` in `Employee(emp_id, ssn, name)` |
+    | Primary Key   | `account_no` in `Account(account_no, balance, branch_id)`    |
+    | Candidate Key | Both `student_id` and `email` in `Student(student_id, email, name)` |
+    | Foreign Key   | `branch_id` in` Account(account_no, balance, branch_id)` references `Branch(branch_id）` |
+
 **反思**：
-  * 对主码、候选码、超码的概念与应用理解不够清晰，常常混淆
+
+  * 起初对主码、候选码、超码的概念与应用理解不够清晰，后阅读教材，理解更直观。
+
 ---
 
 ## 第三周：SQL查询语言与数据类型
 
 **学习内容**：
 
-  * 基本数据类型：整数、字符串等
+  * 基本数据类型：数值、字符串、null等
   * 创建表的语法（DDL）
   * 查询语句基本结构：SELECT、FROM、WHERE
   * 列别名（AS）、排序（ORDER BY）
 
-**要点**：
+**掌握**：
+
 #### 1. 数据类型
-- `int` - 整数类型
-- `numeric(p,d)` - 定点数（如存储31.4用numeric(3,1)）
-- `varchar(n)` - 可变长度字符串
+
+- int：整数类型（与机器相关，等价于 integer）
+- smallint：小整数整形（int 的子集）
+- numeric(p, d)：定点数，（最多）有 p 为数字，小数点右边有 d 位（在 PG 中等价于 decimal）
+- float(n)：精度至少为 n (binary) 位的浮点数
+- real, double precision：浮点数与双精度浮点数（与机器相关）
+- char(n)：固定长度的字符串，长度为 n（等价于 charater）
+- varchar(n)：可变长度的字符串，最大长度为 n （等价于character varying）
+- text：非 SQL 标准，表示任意长度的字符串
+- null: 可能存在但未知（unknown）\可能不存在
 
 #### 2. 表操作
+
  ```sql
  -- 创建表
 CREATE TABLE student (
@@ -69,9 +89,10 @@ CREATE TABLE department (
     
 -- 删除表
 DROP TABLE student;
-```
+ ```
 
 #### 3. 数据查询
+
 ```sql
 SELECT student_id, name 
 FROM student 
@@ -81,6 +102,7 @@ WHERE dept_id = (
 ```
 
 #### 4. 排序
+
 ```sql
 -- 按学号降序查询
 SELECT * FROM student ORDER BY student_id DESC;
@@ -95,7 +117,7 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 **反思**：
 
   * 数据类型选择时，字符串长度定义模糊，后来查阅资料避免浪费空间。
-  * 复杂查询条件构建时逻辑表达容易出错，练习多写SQL帮助理清逻辑。
+  * 复杂查询条件构建时逻辑表达容易出错，通过反复练习帮助理清逻辑。
 
 ---
 
@@ -107,16 +129,16 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
   * 字符串相关操作：引号使用、字符串函数、模糊查询
   * 集合操作：交（INTERSECT）、并（UNION）、差（EXCEPT）
 
-**要点**：
+**掌握**：
 
   * 字符串函数如`LENGTH()`, `SUBSTRING()`, `UPPER()`的使用
   * 模糊查询用LIKE和通配符
   * 集合操作要求字段类型和数量匹配
 
 **反思**：
+
   * 在这周修改了端口配置，解决每次需要手动定义端口的问题。
-  * 模糊查询时转义字符使用不熟悉，导致查询结果不准确。
-  * 集合操作理解较为抽象。
+  * 模糊查询时转义字符使用不熟悉，导致查询结果不准确,对照ppt修改匹配，加深了印象。
 
 ---
 
@@ -129,7 +151,7 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
   * 分组查询与HAVING子句
   * 嵌套函数与IN、NOT IN、ALL、SOME操作符
 
-**要点**：
+**注意点**：
 
   * NULL不是一个值，任何与NULL的比较结果都是未知（NULL）
   * GROUP BY分组和HAVING条件的区别和使用场景
@@ -137,11 +159,11 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 **示例**：
 
   ```sql
-  SELECT department, COUNT(*)
-  FROM Employees
-  WHERE salary IS NOT NULL
-  GROUP BY department
-  HAVING COUNT(*) > 5;
+SELECT department, COUNT(*)
+FROM Employees
+WHERE salary IS NOT NULL
+GROUP BY department
+HAVING COUNT(*) > 5;
   ```
 
 **反思**：
@@ -155,8 +177,8 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 
 **学习内容**：
 
-  * 插入（INSERT）、更新（UPDATE）、删除（DELETE）操作
-  * 唯一性约束（UNIQUE）
+  * 删（DELETE）、增（INSERT）、批量导入（COPY）、更新（UPDATE）修改关系（ALTER）、插入（INSERT）、更新（UPDATE）、删除（DELETE）操作
+  * 完整性约束：默认值、CHECK约束、UNIQUE约束
   * 使用排名函数（RANK）
 
 **要点**：
@@ -167,18 +189,36 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 **示例**：
 
   ```sql
-  INSERT INTO Students (student_id, name, age)
-  VALUES (1001, '张三', 20);
+  INSERT INTO Students (student_id, name, age)   -- 增
+  VALUES (1001, 'Tom', 20);
 
-  UPDATE Students SET age = 21 WHERE student_id = 1001;
+  UPDATE Students SET age = 21 WHERE student_id = 1001;  -- 更新
 
-  DELETE FROM Students WHERE student_id = 1001;
+  DELETE FROM Students WHERE student_id = 1001;   -- 删
+  
+  CREATE TABLE Students (
+  student_id INT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  age INT DEFAULT 18,                         -- 默认值约束：不填时自动为18
+  gender VARCHAR(10) CHECK (gender IN ('男', '女')),  -- CHECK约束：只能填“男”或“女”
+  email VARCHAR(100) UNIQUE                   -- UNIQUE约束：不允许重复
+);
+
+-- 使用 RANK()
+SELECT name, score, RANK() OVER (ORDER BY score DESC) AS rank FROM ExamResults;
+
+-- 使用 DENSE_RANK()
+SELECT name, score, DENSE_RANK() OVER (ORDER BY score DESC) AS dense_rank FROM ExamResults;
+
+-- 使用ROW_NUMBER()
+SELECT student_id, name, score, ROW_NUMBER() OVER (ORDER BY score DESC) AS row_num FROM ExamResults;
+
   ```
 
 **反思**：
 
   * 对修改语句的条件把握不严谨，导致误删数据，之后养成先备份的习惯。
-  * 排名函数理解较难，练习很多示例学习了窗口函数。
+  * 对三种排名函数dense_rank()、row_number()、rank()的用法一开始不是很清楚,后来延伸阅读了Sling Academy 教程： [PostgreSQL Ranking Rows with RANK, DENSE_RANK and ROW_NUMBER](https://www.slingacademy.com/article/postgresql-ranking-rows-with-rank-dense-rank-and-row-number)。
 
 ---
 
@@ -210,7 +250,7 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 **反思**：
 
   * JOIN语法初学时容易混淆连接条件位置，调试中逐步掌握。
-  * 视图更新限制不熟悉。
+  * 视图更新限制不熟悉，阅读了[REDROCK:可更新视图](https://www.rockdata.net/zh-cn/tutorial/ddl-updatable-views/)中的教学，用其中的示例加深了理解。
 
 ---
 
@@ -225,7 +265,7 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 **要点**：
 
   * DATE、TIMESTAMP等类型的存储和格式
-  * 权限管理保证数据安全
+  * 学习权限管理保证数据安全
 
 **示例**：
 
@@ -236,9 +276,6 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
   REVOKE INSERT ON Students FROM user_readonly;
   ```
 
-**反思**：
-
-  * 日期类型函数使用不熟练，一开始格式转换有误。
 
 ---
 
@@ -297,9 +334,8 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 
 **反思**：
 
-  * 初学ER图时符号不熟悉，容易混淆属性、箭头。
-  * 复杂关系转化作图不知道从何开始，遗漏约束条件，后来反复查询资料加深理解。
-    
+  * 对复杂关系容易理不清逻辑，会遗漏约束条件
+  * 对ER图符号不熟悉，容易混淆属性、箭头，后查阅资料教程，辅助我完成了作业中的绘图。
 
 ---
 
@@ -320,9 +356,9 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
 
 **反思**：
 
-  * 理论难度大，初期难以分辨范式标准。
   * 忽略无损分解验证，直接分解导致数据丢失，后面巩固理解，通过交集属性闭包验证。
-  * BCNF可能丢失依赖（如 dept_advisor(s_ID, i_ID, dept_name) 分解后需额外连接查询），必要时选择3NF以保留依赖
+  * BCNF可能丢失依赖（如 dept_advisor(s_ID, i_ID, dept_name) 分解后需额外连接查询）
+
 ---
 
 ## 第十三、十四周：存储结构、索引、查询优化及事务
@@ -335,14 +371,16 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
   * 事务的ACID属性
   * 并发控制机制
 
-**要点**：
+**理解**：
 
-#### 1. 数据库存储
+##### 1. 数据库存储 
+
 - 存储层级：CPU寄存器 → CPU缓存 → DRAM → SSD → HDD（访问延迟逐级增加）
 - 数据组织：Page、堆文件
 - 行存储、列存储、大对象存储
 
-#### 2. 索引
+##### 2. 索引
+
 - 索引类型：有序索引、哈希索引
 - 索引选择：聚集 vs.非聚集、B+树索引、稠密 vs. 稀疏、Hash索引
 - 代价：索引占用存储空间，写入时需维护索引（可能降低写入性能）  
@@ -350,45 +388,51 @@ SELECT student_id AS 学号, name AS 姓名 FROM student;
   - 高频查询字段（如主键、外键）适合建索引  
   - 低区分度字段（如`gender`）建索引可能无效  
 
-#### 3. 事务（ACID）
+##### 3. 事务（ACID）
+
 - 原子性（A）、一致性（C）、隔离性（I）、持久性（D）
 
-    | 隔离级别          | 脏读 | 不可重复读 | 幻读 |  
-    |-------------------|------|------------|------|  
-    | Read Uncommitted  | ✓    | ✓          | ✓    |  
-    | Read Committed    | ✗    | ✓          | ✓    |  
-    | Repeatable Read   | ✗    | ✗          | ✓    |  
-    | Serializable      | ✗    | ✗          | ✗    |  
- 
- 
+  | 隔离级别         | 脏读 | 不可重复读 | 幻读 |
+  | ---------------- | ---- | ---------- | ---- |
+  | Read Uncommitted | ✓    | ✓          | ✓    |
+  | Read Committed   | ✗    | ✓          | ✓    |
+  | Repeatable Read  | ✗    | ✗          | ✓    |
+  | Serializable     | ✗    | ✗          | ✗    |
+
+
 **总结**：
+
 - 存储：优化I/O，减少随机访问，合理选择行/列存储  
 - 索引：权衡查询加速与写入开销，优先覆盖高频查询  
 - 事务：平衡一致性与并发性能，避免过度隔离  
 
 **示例**：  
-- **索引优化**：  
+
+- **索引**：  
+
   ```sql
-  --普通字段索引
-  CREATE INDEX idx_student_name ON Students(name);
+  CREATE INDEX idx_salary ON Employee(salary);    -- 默认B+tree
+  -- 范围查询
+  SELECT * FROM Employee WHERE salary BETWEEN 50000 AND 100000;
+  -- 排序查询（可复用索引）
+  SELECT * FROM Employee ORDER BY salary DESC;
   
-  -- 创建B+树索引优化范围查询
-  CREATE INDEX idx_salary ON instructor(salary);
-  EXPLAIN ANALYZE SELECT * FROM instructor WHERE salary BETWEEN 50000 AND 80000;
-  ```  
+  CREATE INDEX idx_email_hash ON Users USING HASH(email);   -- HASH索引
+  SELECT * FROM Users WHERE email = 'a@x.com';  -- 可用索引（等值查询）
+  SELECT * FROM Users WHERE email LIKE 'a%';    -- 无法使用 Hash 索引
+  ```
+
 - **事务隔离**：  
+
   ```sql
   -- 基本事务操作（默认 Read Committed）
   BEGIN;
   UPDATE Students SET age = 22 WHERE student_id = 1001;
   COMMIT;
-  ```  
-**反思**：
-  * 起初印象不深刻，非常容易混淆脏读、不可重复读、幻读的区别
+  ```
 
 ---
 
 # 总结
 
-通过一学期系统学习，我对数据库系统的理论基础与实践操作有了基本的掌握。学习中遇到的困难主要集中在复杂SQL语法、多表连接及范式理论等方面，通过查阅资料、反复练习和同学讨论逐步解决。后续将继续强化实践能力，熟悉数据库调优与高级应用，为后续课程和项目打下坚实基础。
-
+通过一学期的系统学习，我对数据库系统的理论基础与实践操作有了更加扎实的掌握。学习过程中，我主要在复杂 SQL 语法、多表连接以及范式理论等内容上遇到了一些困难，但通过查阅资料、反复练习、向同学请教以及借助大模型辅助，我逐步克服了这些问题。综合本学期的学习收获、作业完成情况以及个人在学习中投入的时间与精力，我为自己本学期的表现评分为 47 分。
